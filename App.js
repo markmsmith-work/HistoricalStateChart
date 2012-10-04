@@ -124,13 +124,13 @@ Ext.define('CustomApp', {
                 }
               },
               title : {
-                text : 'Schedule State Counts',
+                text : 'Story & Defect Counts by Schedule State',
                 align: 'center'
               },
               xAxis : [
                 {
                     title : {
-                      text : 'ScheduleState',
+                      text : 'Schedule State',
                       margin : 40
                     },
 
@@ -144,7 +144,7 @@ Ext.define('CustomApp', {
               ],
               yAxis : {
                 title: {
-                    text: 'Total Artifacts by ScheduleState'
+                    text: 'Total Artifacts'
                 },
                 stackLabels: {
                     enabled: true,
@@ -314,15 +314,24 @@ Ext.define('CustomApp', {
 
         var storySeries = {
             name : "User Story",
+            id: "storySeries",
             visible : true,
             data: [],
             color: '#89A54E'
         };
         var defectSeries = {
             name : "Defect",
+            id: "defectSeries",
             visible : true,
             data: [],
             color: '#AA4643'
+        };
+
+        var lineSeries = {
+            type: 'spline',
+            data: [],
+            name: "Totals",
+            color: '#5E8BC0'
         };
 
         for(var j=0, ll=this.scheduleStates.length; j < ll; ++j){
@@ -347,9 +356,10 @@ Ext.define('CustomApp', {
 
             storySeries.data.push(storyCount);
             defectSeries.data.push(defectCount);
+            lineSeries.data.push(storyCount + defectCount);
         }
 
-        return [storySeries, defectSeries];
+        return [storySeries, defectSeries, lineSeries];
       },
 
     setTitleDate: function(date){
